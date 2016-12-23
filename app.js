@@ -3,8 +3,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 var session = require('express-session');
-var passport = require('passport');
-var localStrategy = require('passport-local').Strategy;
+ passport = require('passport');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var logger = require('morgan');
@@ -27,23 +26,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-//public folder 
+//public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-//express session 
+//express session
 app.use(session({
 	secret:'secret',
 	saveUninitialized: true,
 	resave:true
 }));
 
-//passport init 
+//passport init
 app.use(passport.initialize());
 app.use(passport.session());
 
 
 
-//view routes 
+//view routes
 app.use('/', index);
 
 
