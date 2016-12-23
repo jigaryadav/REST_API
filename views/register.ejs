@@ -8,7 +8,9 @@
  <!-- /container -->
     <div class="container">
       <form class="form-signin" action="/register" method="post">
-				<%= user %>
+        <% if (user) { %>
+         <h2><%= JSON.stringify(user) %></h2>
+        <% } %>
         <h2 class="form-signin-heading">Please sign up</h2>
         <label   class="sr-only">Email address</label>
         <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>

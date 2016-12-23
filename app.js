@@ -12,6 +12,7 @@ var cookieParser = require('cookie-parser');
 
 
 var index = require('./routes/index');
+var facebook = require('./routes/facebook');
 
 var app = express();
 
@@ -44,6 +45,7 @@ app.use(passport.session());
 
 //view routes
 app.use('/', index);
+app.use('/facebook', facebook);
 
 
 
