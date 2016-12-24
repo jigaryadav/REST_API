@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 
-mongoose.connect('mongodb://localhost:27017/REST')
+// mongoose.connect('mongodb://localhost:27017/REST')
 
 var db = mongoose.connection;
 
@@ -10,6 +10,9 @@ var UserSchema = mongoose.Schema({
 		type:String
 	},
 	password:{
+		type:String
+	},
+	accessToken:{
 		type:String
 	}
 });

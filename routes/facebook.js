@@ -4,6 +4,9 @@ var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
 var User = require('../models/user');
+// Using require() in ES5
+var FB = require('fb');
+
 
 
 passport.use(new FacebookStrategy({
@@ -12,8 +15,7 @@ passport.use(new FacebookStrategy({
     callbackURL: "http://localhost:3000/facebook/callback",
   },
   function(accessToken, refreshToken, profile, done) {
-   	console.log("profile: "+ JSON.stringify(profile));
-   	return done(null,user=profile);
+      done(null,user={accessToken:accessToken,id:profile.id});
   }
 ));
 
@@ -29,10 +31,30 @@ router.get('/',function  (req, res, next) {
 	res.render('facebook');
 })
 
-router.get('/auth', passport.authenticate('facebook',{scope:['read_stream','email','user_birthday']}));
+router.get('/profile',function  (req, res, next) {
+  if(!req.session.passport){
+    res.redirect('/facebook');
+    next();
+    if(!req.session.passport.user){
+      console.log('is session');
+      res.redirect('/facebook');
+    }
+  }
+  FB.setAccessToken(req.session.passport.user.accessToken);
+  FB.api('me/', { fields: ['id', 'name','picture','about'] }, function (r) {
+  if(!r || res.error) {
+    console.log(!r ? 'error occurred' : res.error);
+    return;
+  }else{
+    res.render('profile',{data:r});
+  }
+});
+})
+
+router.get('/auth', passport.authenticate('facebook',{scope:['email','user_friends','user_about_me','user_photos']}));
 
 router.get('/callback',
-	passport.authenticate('facebook', { successRedirect: '/register',failureRedirect: '/login' })
+	passport.authenticate('facebook', { successRedirect: '/facebook/profile',failureRedirect: '/login' })
 );
 
 

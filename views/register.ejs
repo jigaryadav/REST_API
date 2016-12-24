@@ -2,15 +2,14 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
 </head>
   <body>
  <!-- /container -->
     <div class="container">
+			<% if (user) { %>
+			 <h3><%= user.accessToken %></h3>
+			<% } %>
       <form class="form-signin" action="/register" method="post">
-        <% if (user) { %>
-         <h2><%= JSON.stringify(user) %></h2>
-        <% } %>
         <h2 class="form-signin-heading">Please sign up</h2>
         <label   class="sr-only">Email address</label>
         <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
